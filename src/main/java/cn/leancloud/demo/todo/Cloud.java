@@ -17,11 +17,12 @@ public class Cloud {
     return "Hello world!";
   }
 
-  @EngineFunction("listTodo")
-  public static List<Todo> getTodos(@EngineFunctionParam("limit") int limit) throws AVException {
+  @EngineFunction("list")
+  public static List<Todo> getNotes(@EngineFunctionParam("offset") int offset) throws AVException {
     AVQuery<Todo> query = AVObject.getQuery(Todo.class);
     query.orderByDescending("createdAt");
-    query.limit(limit);
+    query.include("createdAt");
+    query.skip(offset);
     try {
       return query.find();
     } catch (AVException e) {
